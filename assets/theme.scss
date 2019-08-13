@@ -1,0 +1,63 @@
+// Import Bulma's core
+@import "~bulma/sass/utilities/_all";
+@import "~assets/variables.scss";
+
+// Set your colors
+$primary: $color-primary;
+$primary-invert: findColorInvert($primary);
+
+$secondary: $color-secondary;
+$secondary-invert: findColorInvert($secondary);
+
+$info: $color-info;
+$info-invert: findColorInvert($info);
+
+$danger: $color-danger;
+$danger-invert: findColorInvert($danger);
+
+$success: $color-success;
+$success-invert: findColorInvert($success);
+
+// Setup $colors to use as bulma classes (e.g. 'is-twitter')
+$colors: (
+    "primary": ($primary, $primary-invert),
+    "secondary": ($secondary, $secondary-invert),
+    "info": ($info, $info-invert),
+    "success": ($success, $success-invert),
+    "danger": ($danger, $danger-invert)
+);
+
+// Links
+$link: $primary;
+$link-invert: $primary-invert;
+$link-focus-border: $primary;
+
+// Import Bulma and Buefy styles
+@import "~bulma";
+@import "~buefy/src/scss/buefy";
+
+.snackbar {
+    &.is-success  {
+        background-color: $color-success;
+    }
+
+    &.is-danger  {
+        background-color: $color-danger;
+
+        .action {
+            &.is-danger {
+                .button {
+                    color: $color-secondary;
+                }
+            }
+        }
+    }
+
+    &.is-info  {
+        background-color: $color-info;
+    }
+}
+
+.is-fullsize {
+    width: 100%;
+}
