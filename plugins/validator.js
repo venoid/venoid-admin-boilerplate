@@ -11,13 +11,17 @@ export default (ctx, inject) => {
         throw new Error('Username must be alphanumeric')
       }
 
-      if (!validator.isLength(value, { min: 5 })) {
-        throw new TypeError('Username must be at least 5 chars long')
+      if (!validator.isLength(value, { min: 4 })) {
+        throw new TypeError('Username must be at least 4 chars long')
       }
     },
     isPassword(value) {
       if (validator.isEmpty(value)) {
         throw new Error('Password must be filed')
+      }
+
+      if (!validator.isLength(value, { min: 4 })) {
+        throw new TypeError('Password must be at least 4 chars long')
       }
     }
   })

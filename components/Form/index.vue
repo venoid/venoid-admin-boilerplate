@@ -19,6 +19,7 @@
       :click-action="action.onclick"
       :is-form-valid="isValid"
     />
+    <b-loading :active.sync="isLoading"></b-loading>
   </div>
 </template>
 
@@ -41,6 +42,10 @@ export default {
     actions: {
       type: Array,
       default: () => []
+    },
+    isLoading: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

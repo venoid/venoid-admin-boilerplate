@@ -3,6 +3,7 @@
     <Modal :close-button="false" header="Log In">
       <Form
         :model="credentials"
+        :is-loading="isLoading"
         :fields="{
           username: {
             label: 'Username',
