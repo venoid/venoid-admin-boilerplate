@@ -3,9 +3,11 @@
     <FormField
       v-for="(field, index) in fields"
       :key="`field.${index}`"
-      :v-model="field.data"
+      :value="model[index]"
       :label="field.label"
       :type="field.type"
+      :icon="field.icon"
+      :options="field.options"
       :validator="field.validator || null"
       @updated="(v) => (model[index] = v)"
       @validated="(e) => updatedField(field, e)"

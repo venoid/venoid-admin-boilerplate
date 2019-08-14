@@ -14,6 +14,19 @@
             label: 'Password',
             type: 'password',
             validator: $validator.isPassword
+          },
+          remember: {
+            label: 'Remember Me',
+            type: 'checkbox'
+          },
+          agree: {
+            label: 'Send newsletter?',
+            type: 'radio'
+          },
+          fruit: {
+            label: 'Which fruit?',
+            type: 'select',
+            options: ['orange', 'apple']
           }
         }"
         :actions="[
@@ -41,7 +54,10 @@ export default {
     return {
       credentials: {
         username: 'cccc',
-        password: ''
+        password: '',
+        remember: false,
+        agree: false,
+        fruit: null
       },
       isLoading: false
     }
