@@ -27,7 +27,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['plugins/notification.js'],
+  plugins: ['plugins/notification.js', 'plugins/validator.js'],
   /*
    ** Nuxt.js dev-modules
    */

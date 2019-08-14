@@ -1,38 +1,54 @@
 <template>
   <section class="login">
-    <Modal :actions="loginActions" :close-button="false">
-      <b-field label="Email">
-        <b-input type="email" placeholder="Your email" required> </b-input>
-      </b-field>
-
-      <b-field label="Password">
-        <b-input
-          type="password"
-          password-reveal
-          placeholder="Your password"
-          required
-        >
-        </b-input>
-      </b-field>
-      <hr />
-      <b-field position="is-centered">
-        <b-button type="is-primary" class="is-fullsize">Login</b-button>
-      </b-field>
+    <Modal :close-button="false" header="Log In">
+      <Form
+        :model="credentials"
+        :fields="{
+          username: {
+            label: 'Username',
+            type: 'text',
+            validator: $validator.isUsername
+          },
+          password: {
+            label: 'Password',
+            type: 'password',
+            validator: $validator.isPassword
+          }
+        }"
+        :actions="[
+          {
+            label: 'Submit',
+            onclick: submit
+          }
+        ]"
+      />
     </Modal>
   </section>
 </template>
 
 <script>
 import Modal from '../components/Modal'
+import Form from '../components/Form'
 
 export default {
   layout: 'empty',
   components: {
-    Modal
+    Modal,
+    Form
   },
   data() {
     return {
-      loginActions: []
+      credentials: {
+        username: 'cccc',
+        password: ''
+      },
+      isLoading: false
+    }
+  },
+  methods: {
+    submit() {
+      this.$notification.info(`Logiing in ${this.credentials.username}`)
+      this.isLoading = true
     }
   }
 }
