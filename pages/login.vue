@@ -7,11 +7,13 @@
         :fields="{
           username: {
             label: 'Username',
+            placeholder: 'Enter username',
             type: 'text',
             validator: $validator.isUsername
           },
           password: {
             label: 'Password',
+            placeholder: 'Enter password',
             type: 'password',
             validator: $validator.isPassword
           },
@@ -25,6 +27,7 @@
           },
           fruit: {
             label: 'Which fruit?',
+            placeholder: 'Select',
             type: 'select',
             options: ['orange', 'apple']
           }
@@ -53,7 +56,7 @@ export default {
   data() {
     return {
       credentials: {
-        username: 'cccc',
+        username: '',
         password: '',
         remember: false,
         agree: false,

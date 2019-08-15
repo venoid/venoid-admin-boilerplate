@@ -25,7 +25,7 @@
     <b-select
       v-else-if="type === fieldTypes.SELECT"
       v-model="currentValue"
-      placeholder="Select"
+      :placeholder="placeholder"
       :icon="icon"
       @input="updated"
     >

@@ -5,6 +5,7 @@
       :key="`field.${index}`"
       :value="model[index]"
       :label="field.label"
+      :placeholder="field.placeholder"
       :type="field.type"
       :icon="field.icon"
       :options="field.options"
