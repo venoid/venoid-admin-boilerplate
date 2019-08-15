@@ -21,11 +21,8 @@
     <template slot="end">
       <b-navbar-item tag="div">
         <div class="buttons">
-          <a class="button is-secondary">
-            <strong>Sign up</strong>
-          </a>
-          <b-button :to="{ name: 'login' }" tag="nuxt-link">
-            Log in
+          <b-button @click="logout">
+            Log out
           </b-button>
         </div>
       </b-navbar-item>
@@ -34,5 +31,11 @@
 </template>
 
 <script>
-export default {}
+export default {
+  methods: {
+    logout() {
+      this.$v.auth.logout()
+    }
+  }
+}
 </script>

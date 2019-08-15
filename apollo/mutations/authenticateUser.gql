@@ -1,0 +1,6 @@
+mutation authenticateUser($username:String!){
+    login(username: $username) {
+        username
+        token
+    }
+}

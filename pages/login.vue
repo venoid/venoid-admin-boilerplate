@@ -9,13 +9,13 @@
             label: 'Username',
             placeholder: 'Enter username',
             type: 'text',
-            validator: $validator.isUsername
+            validator: $v.validator.isUsername
           },
           password: {
             label: 'Password',
             placeholder: 'Enter password',
             type: 'password',
-            validator: $validator.isPassword
+            validator: $v.validator.isPassword
           },
           remember: {
             label: 'Remember Me',
@@ -66,9 +66,19 @@ export default {
     }
   },
   methods: {
-    submit() {
-      this.$notification.info(`Logiing in ${this.credentials.username}`)
+    async submit() {
       this.isLoading = true
+      const { username } = this.credentials
+
+      try {
+        const login = await this.$v.auth.login(username)
+        this.$v.notification.success(`Logged in as ${login.username}`)
+        this.$router.push({ name: 'index' })
+      } catch (e) {
+        this.$v.notification.error(e.message)
+      }
+
+      this.isLoading = false
     }
   }
 }

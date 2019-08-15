@@ -27,7 +27,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['plugins/notification.js', 'plugins/validator.js'],
+  plugins: ['plugins/v.js'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -41,8 +41,32 @@ export default {
   modules: [
     // Doc: https://buefy.github.io/#/documentation
     'nuxt-buefy',
-    '@nuxtjs/style-resources'
+    '@nuxtjs/style-resources',
+    '@nuxtjs/apollo'
   ],
+  router: {
+    middleware: ['isAuth']
+  },
+
+  apollo: {
+    tokenName: 'venoid-token',
+    includeNodeModules: true, // optional, default: false (this includes graphql-tag for node_modules folder)
+    clientConfigs: {
+      default: {
+        httpEndpoint: 'http://api.2f-library.localhost',
+        httpLinkOptions: {
+          credentials: 'same-origin'
+        }
+      }
+
+      // server: {
+      //   httpEndpoint: `http://api.2f-library.localhost`,
+      //   httpLinkOptions: {
+      //     credentials: 'same-origin'
+      //   }
+      // }
+    }
+  },
 
   styleResources: {
     scss: ['assets/variables.scss']
