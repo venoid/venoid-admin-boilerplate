@@ -23,7 +23,7 @@
           },
           agree: {
             label: 'Send newsletter?',
-            type: 'radio'
+            type: 'switch'
           },
           fruit: {
             label: 'Which fruit?',

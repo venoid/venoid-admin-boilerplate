@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <form>
     <FormField
       v-for="(field, index) in fields"
       :key="`field.${index}`"
@@ -22,17 +22,18 @@
       :click-action="action.onclick"
       :is-form-valid="isValid"
     />
-    <b-loading :active.sync="isLoading"></b-loading>
-  </div>
+    <Loading :is-loading="isLoading" />
+  </form>
 </template>
 
 <script>
+import Loading from '../Loading'
 import FormField from './FormField'
 import FormAction from './FormAction'
 
 export default {
   name: 'Form',
-  components: { FormField, FormAction },
+  components: { FormField, FormAction, Loading },
   props: {
     model: {
       type: Object,

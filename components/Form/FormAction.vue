@@ -8,8 +8,6 @@
 </template>
 
 <script>
-import actionTypes from '../../enums/FormActionTypeEnum'
-
 export default {
   props: {
     label: {
@@ -22,7 +20,9 @@ export default {
     },
     type: {
       type: String,
-      default: actionTypes.PRIMARY
+      default: 'is-primary',
+      validator: (type) =>
+        ['is-primary', 'is-danger', 'is-secondary'].includes(type)
     },
     isFormValid: {
       type: Boolean,

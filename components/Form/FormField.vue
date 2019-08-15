@@ -1,13 +1,11 @@
 <template>
   <b-field
-    :label="
-      type === fieldTypes.CHECKBOX || type === fieldTypes.RADIO ? null : label
-    "
+    :label="type === 'checkbox' || type === 'switch' ? null : label"
     :type="fieldType"
     :message="showErrorMessage ? errorMessage : null"
   >
     <b-checkbox
-      v-if="type === fieldTypes.CHECKBOX"
+      v-if="type === 'checkbox'"
       v-model="currentValue"
       @input="updated"
     >
@@ -15,7 +13,7 @@
     </b-checkbox>
 
     <b-switch
-      v-else-if="type === fieldTypes.RADIO"
+      v-else-if="type === 'switch'"
       v-model="currentValue"
       @input="updated"
     >
@@ -23,10 +21,11 @@
     </b-switch>
 
     <b-select
-      v-else-if="type === fieldTypes.SELECT"
+      v-else-if="type === 'select'"
       v-model="currentValue"
       :placeholder="placeholder"
       :icon="icon"
+      expanded
       @input="updated"
     >
       <option v-for="(option, index) in options" :key="index" :value="option">
@@ -46,8 +45,6 @@
 </template>
 
 <script>
-import fieldTypes from '../../enums/FormFieldTypeEnum'
-
 export default {
   components: {},
   props: {
@@ -61,8 +58,11 @@ export default {
     },
     type: {
       type: String,
-      default: fieldTypes.TEXT,
-      validator: (type) => fieldTypes.validate(type)
+      default: 'text',
+      validator: (type) =>
+        ['text', 'password', 'email', 'checkbox', 'select', 'switch'].includes(
+          type
+        )
     },
     placeholder: {
       type: String,
@@ -85,8 +85,7 @@ export default {
     return {
       currentValue: null,
       errorMessage: null,
-      showErrorMessage: false,
-      fieldTypes
+      showErrorMessage: false
     }
   },
   computed: {
