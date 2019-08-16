@@ -1,6 +1,9 @@
-mutation authenticateUser($username:String!){
-    login(username: $username) {
-        username
+mutation authenticateUser($username:String!, $password:String!){
+    login(username: $username, password: $password) {
+        user {
+            username
+            email
+        }
         token
     }
 }

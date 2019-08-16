@@ -7,10 +7,10 @@ export default class Auth {
     this.router = router
   }
 
-  async login(username) {
+  async login(username, password) {
     const { data, errors } = await this.apolloClient.mutate({
       mutation: authenticateUserGql,
-      variables: { username },
+      variables: { username, password },
       fetchPolicy: 'no-cache',
       errorPolicy: 'all'
     })

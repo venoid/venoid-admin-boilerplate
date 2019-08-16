@@ -68,11 +68,11 @@ export default {
   methods: {
     async submit() {
       this.isLoading = true
-      const { username } = this.credentials
+      const { username, password } = this.credentials
 
       try {
-        const login = await this.$v.auth.login(username)
-        this.$v.notification.success(`Logged in as ${login.username}`)
+        const { user } = await this.$v.auth.login(username, password)
+        this.$v.notification.success(`Logged in as ${user.username}`)
         this.$router.push({ name: 'index' })
       } catch (e) {
         this.$v.notification.error(e.message)

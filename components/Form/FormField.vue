@@ -2,7 +2,7 @@
   <b-field
     :label="type === 'checkbox' || type === 'switch' ? null : label"
     :type="fieldType"
-    :message="showErrorMessage ? errorMessage : null"
+    :message="errorMessage ? errorMessage : null"
   >
     <b-checkbox
       v-if="type === 'checkbox'"
@@ -28,6 +28,7 @@
       expanded
       @input="updated"
     >
+      <option value="" disabled selected>{{ placeholder }}</option>
       <option v-for="(option, index) in options" :key="index" :value="option">
         {{ option }}</option
       >
@@ -84,8 +85,7 @@ export default {
   data() {
     return {
       currentValue: null,
-      errorMessage: null,
-      showErrorMessage: false
+      errorMessage: null
     }
   },
   computed: {
@@ -102,7 +102,7 @@ export default {
   },
   methods: {
     validate() {
-      this.errorMessage = null
+      this.errorMessage = false
       if (this.validator) {
         try {
           this.validator(this.currentValue)
@@ -117,7 +117,6 @@ export default {
     updated() {
       this.validate()
       this.$emit('updated', this.currentValue)
-      this.showErrorMessage = true
     }
   }
 }
