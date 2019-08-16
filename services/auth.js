@@ -1,4 +1,5 @@
 import authenticateUserGql from '../apollo/mutations/authenticateUser'
+import me from '../apollo/queries/me'
 
 export default class Auth {
   constructor(apolloClient, apolloHelpers, router) {
@@ -28,5 +29,13 @@ export default class Auth {
   async logout() {
     await this.apolloHelpers.onLogout()
     this.router.push({ name: 'login' })
+  }
+
+  async me() {
+    await this.apolloClient.query({
+      query: me,
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all'
+    })
   }
 }

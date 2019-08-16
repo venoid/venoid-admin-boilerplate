@@ -1,6 +1,8 @@
 <template>
   <section class="section">
     <Datatable :model="datatable" />
+
+    <!-- <button @click="getMe">me</button> -->
   </section>
 </template>
 
@@ -114,6 +116,11 @@ export default {
           }
         ]
       }
+    }
+  },
+  methods: {
+    getMe() {
+      this.$v.auth.me()
     }
   }
 }
