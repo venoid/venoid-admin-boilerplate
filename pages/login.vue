@@ -1,6 +1,6 @@
 <template>
   <section class="login">
-    <Modal :close-button="false" header="Log In">
+    <Modal :active="true" :close-button="false" header="Log In">
       <Form
         :model="credentials"
         :is-loading="isLoading"

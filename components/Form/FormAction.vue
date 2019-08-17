@@ -1,6 +1,7 @@
 <template>
   <b-button
-    :type="type"
+    class="FormAction"
+    :type="type !== 'default' ? type : null"
     :disabled="!isFormValid"
     @click.prevent="clickAction"
     >{{ label }}</b-button
@@ -22,7 +23,7 @@ export default {
       type: String,
       default: 'is-primary',
       validator: (type) =>
-        ['is-primary', 'is-danger', 'is-secondary'].includes(type)
+        ['is-primary', 'is-danger', 'is-secondary', 'default'].includes(type)
     },
     isFormValid: {
       type: Boolean,
@@ -31,3 +32,8 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.FormAction {
+  margin-right: 0.25rem;
+}
+</style>

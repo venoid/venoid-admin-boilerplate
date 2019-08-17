@@ -1,5 +1,10 @@
 <template>
-  <b-modal active :width="400" :can-cancel="closeButton">
+  <b-modal
+    :active="active"
+    :width="400"
+    :can-cancel="closeButton"
+    @close="close"
+  >
     <div class="card">
       <header class="card-header">
         <div class="card-header-title is-size-4">
@@ -42,6 +47,15 @@ export default {
       default() {
         return []
       }
+    },
+    active: {
+      type: Boolean,
+      default: false
+    }
+  },
+  methods: {
+    close() {
+      this.$emit('close')
     }
   }
 }

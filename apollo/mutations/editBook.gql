@@ -1,0 +1,3 @@
+mutation editBook($id:Int!, $title:String!){
+    bookEdit(id: $id, title: $title)
+}

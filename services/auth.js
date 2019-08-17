@@ -9,26 +9,30 @@ export default class Auth {
   }
 
   async login(username, password) {
-    const { data, errors } = await this.apolloClient.mutate({
-      mutation: authenticateUserGql,
-      variables: { username, password },
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all'
-    })
+    try {
+      const { data, errors } = await this.apolloClient.mutate({
+        mutation: authenticateUserGql,
+        variables: { username, password },
+        fetchPolicy: 'no-cache',
+        errorPolicy: 'all'
+      })
 
-    if (errors) {
-      throw new Error('Invalid credentials')
+      if (errors) {
+        throw new Error('Invalid credentials')
+      }
+      if (data.login && data.login.token) {
+        await this.apolloHelpers.onLogin(data.login.token)
+      } else {
+        throw new Error('Something is wrong')
+      }
+      return data.login
+    } catch (e) {
+      throw new Error(e.message)
     }
-
-    if (data.login && data.login.token) {
-      await this.apolloHelpers.onLogin(data.login.token)
-    }
-
-    return data.login
   }
   async logout() {
     await this.apolloHelpers.onLogout()
-    this.router.push({ name: 'login' })
+    window.location.href = '/'
   }
 
   async me() {

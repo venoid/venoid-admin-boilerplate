@@ -1,44 +1,31 @@
 <template>
-  <b-table :data="model.tableData" :hoverable="true" :loading="isLoading">
+  <b-table :data="tableData" :hoverable="true" :loading="isLoading">
     <template slot-scope="props">
       <b-table-column
-        v-for="(column, index) in model.tableColumns"
+        v-for="(column, index) in tableColumns"
         :key="index"
-        :field="column.field"
         :label="column.label"
         :width="column.width"
         :numeric="column.type === 'id' || column.type === 'number'"
       >
         <div v-if="column.type === 'action'" class="buttons">
-          <!-- if action is just redirecting to somewhere -->
           <b-button
-            v-if="column.options.href"
-            tag="a"
-            size="is-medium"
-            :href="column.options.href"
-            :target="column.options.target || '_blank'"
-          >
-            <b-icon
-              :icon="column.options.icon || 'help-circle'"
-              size="is-small"
-            ></b-icon>
-          </b-button>
-
-          <!-- if action is some function -->
-          <b-button
-            v-else
+            v-for="(action, i) in column.actions"
+            :key="`button.${i}`"
             type="is-primary"
             size="is-small"
             outlined
-            @click="column.options.callback(props.row)"
+            @click="action.callback(props.row)"
           >
             <b-icon
-              :icon="column.options.icon || 'help-circle'"
+              :icon="action.icon || 'help-circle'"
               size="is-small"
             ></b-icon>
           </b-button>
         </div>
-        {{ props.row[column.field] }}
+        <div v-else>
+          {{ column.field(props.row) }}
+        </div>
       </b-table-column>
     </template>
 
@@ -59,8 +46,14 @@
 export default {
   components: {},
   props: {
-    model: {
-      type: Object,
+    tableColumns: {
+      type: Array,
+      default() {
+        return undefined
+      }
+    },
+    tableData: {
+      type: Array,
       default() {
         return undefined
       }
