@@ -1,7 +1,11 @@
 <template>
   <section class="section">
     <b-button icon="add" @click="editBook()">Add Book</b-button>
-    <Datatable :table-columns="tableColumns" :table-data="tableData" />
+    <Datatable
+      :is-loading="isLoading"
+      :table-columns="tableColumns"
+      :table-data="tableData"
+    />
     <Modal
       :active="bookModalActive"
       :header="modalHeader"
@@ -52,6 +56,7 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       bookForm: {
         isLoading: false,
         data: null
@@ -137,14 +142,18 @@ export default {
     },
     async saveBook() {
       try {
+        this.isLoading = true
         await this.$v.book.editBook(this.bookForm.data)
-        this.$v.notification.success('Book saved')
+        this.$v.notification.success(`Book #${this.bookForm.data.id} saved`)
+        this.tableData = await this.$v.book.getBooks()
+        this.isLoading = false
       } catch (e) {
         this.$v.notification.error('Could not update book')
       }
       this.closeBookForm()
     },
     deleteBook(book) {
+      // TODO delete book mutation
       console.log(book)
     },
     closeBookForm() {

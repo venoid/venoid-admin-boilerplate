@@ -57,11 +57,10 @@ export default {
       default() {
         return undefined
       }
-    }
-  },
-  data() {
-    return {
-      isLoading: false
+    },
+    isLoading: {
+      type: Boolean,
+      default: false
     }
   }
 }
