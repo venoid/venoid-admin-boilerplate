@@ -162,9 +162,25 @@ export default {
       }
       this.closeBookForm()
     },
-    deleteBook(book) {
+    deleteBook({ id }) {
+      try {
+        this.$buefy.dialog.confirm({
+          message: `Do you really want to delete book #${id}?`,
+          type: 'is-danger',
+          confirmText: 'Delete',
+          onConfirm: async () => {
+            this.isLoading = true
+            await this.$v.book.deleteBook(id)
+            this.$v.notification.success('Book deleted')
+            this.tableData = await this.$v.book.getBooks()
+            this.isLoading = false
+          }
+        })
+      } catch (e) {
+        console.log(e)
+        this.$v.notification.error('Could not delete book')
+      }
       // TODO delete book mutation
-      console.log(book)
     },
     closeBookForm() {
       this.bookModalActive = false

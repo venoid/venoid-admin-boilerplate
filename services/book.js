@@ -1,6 +1,7 @@
 import booksGql from '../apollo/queries/books'
 import editBookGql from '../apollo/mutations/editBook'
 import createBookGql from '../apollo/mutations/createBook'
+import deleteBookGql from '../apollo/mutations/deleteBook'
 
 export default class Book {
   constructor(apolloClient) {
@@ -29,6 +30,19 @@ export default class Book {
         variables: id
           ? { id, title, releaseDate, pages }
           : { title, releaseDate, pages },
+        fetchPolicy: 'no-cache',
+        errorPolicy: 'all'
+      })
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  async deleteBook(id) {
+    try {
+      await this.apolloClient.mutate({
+        mutation: deleteBookGql,
+        variables: { id },
         fetchPolicy: 'no-cache',
         errorPolicy: 'all'
       })

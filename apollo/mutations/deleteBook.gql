@@ -1,0 +1,3 @@
+mutation editBook($id:ID!){
+    bookDelete(id: $id)
+}
