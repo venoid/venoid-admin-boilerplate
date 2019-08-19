@@ -34,6 +34,12 @@
       >
     </b-select>
 
+    <b-numberinput
+      v-else-if="type === 'number'"
+      v-model="currentValue"
+      @input="updated"
+    ></b-numberinput>
+
     <b-input
       v-else
       v-model="currentValue"
@@ -61,9 +67,15 @@ export default {
       type: String,
       default: 'text',
       validator: (type) =>
-        ['text', 'password', 'email', 'checkbox', 'select', 'switch'].includes(
-          type
-        )
+        [
+          'text',
+          'number',
+          'password',
+          'email',
+          'checkbox',
+          'select',
+          'switch'
+        ].includes(type)
     },
     placeholder: {
       type: String,

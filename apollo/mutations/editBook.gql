@@ -1,3 +1,3 @@
-mutation editBook($id:Float!, $title:String!){
-    bookEdit(id: $id, title: $title)
+mutation editBook($id:ID!, $title:String, $releaseDate: String, $pages: Int){
+    bookEdit(id: $id, title: $title, releaseDate: $releaseDate, pages: $pages)
 }

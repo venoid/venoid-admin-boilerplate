@@ -1,5 +1,6 @@
 import booksGql from '../apollo/queries/books'
 import editBookGql from '../apollo/mutations/editBook'
+import createBookGql from '../apollo/mutations/createBook'
 
 export default class Book {
   constructor(apolloClient) {
@@ -20,11 +21,14 @@ export default class Book {
     return data.books
   }
 
-  async editBook({ id, title }) {
+  async editBook({ id, title, releaseDate, pages }) {
     try {
+      const mutation = id ? editBookGql : createBookGql
       await this.apolloClient.mutate({
-        mutation: editBookGql,
-        variables: { id, title },
+        mutation,
+        variables: id
+          ? { id, title, releaseDate, pages }
+          : { title, releaseDate, pages },
         fetchPolicy: 'no-cache',
         errorPolicy: 'all'
       })

@@ -16,14 +16,20 @@
         :model="bookForm.data"
         :is-loading="bookForm.isLoading"
         :fields="{
-          id: {
-            label: 'Book Id',
-            type: 'text'
-          },
           title: {
-            label: 'Book title',
+            label: 'Title',
             placeholder: 'Enter book title',
             type: 'text'
+          },
+          releaseDate: {
+            label: 'Release Date',
+            placeholder: 'Enter release date',
+            type: 'text'
+          },
+          pages: {
+            label: 'Pages',
+            placeholder: 'Enter number of pages',
+            type: 'number'
           }
         }"
         :actions="[
@@ -78,7 +84,8 @@ export default {
         {
           type: 'string',
           label: 'Author',
-          field: (r) => `${r.author.name} ${r.author.surname}`,
+          field: (r) =>
+            r.author ? `${r.author.name} ${r.author.surname}` : 'Unknown',
           width: '60'
         },
         {
@@ -117,7 +124,7 @@ export default {
   },
   computed: {
     modalHeader() {
-      return this.bookForm.data !== null ? `Edit book: ` : 'Create new book'
+      return this.bookForm.data !== null ? `Edit book` : 'Create new book'
     }
   },
   async asyncData({ app }) {
@@ -130,8 +137,9 @@ export default {
         this.bookForm.data = Object.assign({}, data)
       } else {
         this.bookForm.data = {
-          id: null,
-          title: null
+          title: null,
+          releaseDate: null,
+          pages: 0
         }
       }
       this.bookModalActive = true
@@ -144,7 +152,9 @@ export default {
       try {
         this.isLoading = true
         await this.$v.book.editBook(this.bookForm.data)
-        this.$v.notification.success(`Book #${this.bookForm.data.id} saved`)
+        this.$v.notification.success(
+          `Book #${this.bookForm.data.id || ''} saved`
+        )
         this.tableData = await this.$v.book.getBooks()
         this.isLoading = false
       } catch (e) {
