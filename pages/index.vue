@@ -1,18 +1,18 @@
 <template>
   <section class="section">
     <b-button icon="add" @click="editBook()">Add Book</b-button>
-    <Datatable
+    <venoid-datatable
       :is-loading="isLoading"
       :table-columns="tableColumns"
       :table-data="tableData"
     />
-    <Modal
+    <venoid-modal
       :active="bookModalActive"
       :header="modalHeader"
       :close-button="false"
       @close="closeBookForm"
     >
-      <Form
+      <venoid-form
         :model="bookForm.data"
         :is-loading="bookForm.isLoading"
         :fields="{
@@ -44,21 +44,21 @@
           }
         ]"
       />
-    </Modal>
+    </venoid-modal>
   </section>
 </template>
 
 <script>
-import Datatable from '../components/Datatable'
-import Modal from '../components/Modal'
-import Form from '../components/Form'
+import venoidDatatable from '@venoid/admin-datatable'
+import venoidModal from '@venoid/admin-modal'
+import venoidForm from '@venoid/admin-form'
 
 export default {
   name: 'HomePage',
   components: {
-    Datatable,
-    Modal,
-    Form
+    venoidDatatable,
+    venoidModal,
+    venoidForm
   },
   data() {
     return {

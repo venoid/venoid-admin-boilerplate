@@ -1,7 +1,7 @@
 <template>
   <section class="login">
-    <Modal :active="true" :close-button="false" header="Log In">
-      <Form
+    <venoid-modal :active="true" :close-button="false" header="Log In">
+      <venoid-form
         :model="credentials"
         :is-loading="isLoading"
         :fields="{
@@ -39,19 +39,19 @@
           }
         ]"
       />
-    </Modal>
+    </venoid-modal>
   </section>
 </template>
 
 <script>
-import Modal from '../components/Modal'
-import Form from '../components/Form'
+import venoidModal from '@venoid/admin-modal'
+import venoidForm from '@venoid/admin-form'
 
 export default {
   layout: 'empty',
   components: {
-    Modal,
-    Form
+    venoidModal,
+    venoidForm
   },
   data() {
     return {

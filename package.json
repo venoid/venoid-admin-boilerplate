@@ -22,6 +22,9 @@
   "dependencies": {
     "@nuxtjs/apollo": "^4.0.0-rc10",
     "@nuxtjs/style-resources": "^1.0.0",
+    "@venoid/admin-datatable": "^1.0.9",
+    "@venoid/admin-form": "^1.0.1",
+    "@venoid/admin-modal": "^1.0.1",
     "graphql-tag": "^2.10.1",
     "node-sass": "^4.12.0",
     "nuxt": "^2.0.0",
