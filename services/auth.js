@@ -2,30 +2,24 @@ import authenticateUserGql from '../apollo/mutations/authenticateUser'
 import me from '../apollo/queries/me'
 
 export default class Auth {
-  constructor(apolloClient, apolloHelpers, router) {
-    this.apolloClient = apolloClient
+  constructor(apollo, apolloHelpers, router) {
+    this.apollo = apollo
     this.apolloHelpers = apolloHelpers
     this.router = router
   }
 
   async login(username, password) {
     try {
-      const { data, errors } = await this.apolloClient.mutate({
-        mutation: authenticateUserGql,
-        variables: { username, password },
-        fetchPolicy: 'no-cache',
-        errorPolicy: 'all'
+      const { login } = await this.apollo.mutate(authenticateUserGql, {
+        username,
+        password
       })
-
-      if (errors) {
-        throw new Error('Invalid credentials')
-      }
-      if (data.login && data.login.token) {
-        await this.apolloHelpers.onLogin(data.login.token)
+      if (login && login.token) {
+        await this.apolloHelpers.onLogin(login.token)
       } else {
         throw new Error('Something is wrong')
       }
-      return data.login
+      return login
     } catch (e) {
       throw new Error(e.message)
     }
@@ -36,10 +30,6 @@ export default class Auth {
   }
 
   async me() {
-    await this.apolloClient.query({
-      query: me,
-      fetchPolicy: 'no-cache',
-      errorPolicy: 'all'
-    })
+    await this.apollo.query(me)
   }
 }

@@ -1,46 +1,50 @@
 <template>
   <section class="section">
-    <b-button icon="add" @click="editBook()">Add Book</b-button>
+    <b-button icon="add" @click="editPokemon()">Add Pokemon</b-button>
     <venoid-datatable
-      :is-loading="isLoading"
       :table-columns="tableColumns"
-      :table-data="tableData"
+      :on-api-call="getPokemons"
     />
     <venoid-modal
-      :active="bookModalActive"
+      :active="pokemonModalActive"
       :header="modalHeader"
       :close-button="false"
-      @close="closeBookForm"
+      @close="closePokemonForm"
     >
       <venoid-form
-        :model="bookForm.data"
-        :is-loading="bookForm.isLoading"
+        :model="pokemonForm.data"
+        :is-loading="pokemonForm.isLoading"
         :fields="{
-          title: {
-            label: 'Title',
-            placeholder: 'Enter book title',
+          id: {
+            label: 'Id',
+            placeholder: 'Enter Pokemon id',
             type: 'text'
           },
-          releaseDate: {
-            label: 'Release Date',
-            placeholder: 'Enter release date',
+          name: {
+            label: 'Name',
+            placeholder: 'Enter pokemon name',
             type: 'text'
           },
-          pages: {
-            label: 'Pages',
-            placeholder: 'Enter number of pages',
-            type: 'number'
+          number: {
+            label: 'Number',
+            placeholder: 'Enter pokemon number',
+            type: 'text'
+          },
+          classification: {
+            label: 'Classification',
+            placeholder: 'Enter pokemon classification',
+            type: 'text'
           }
         }"
         :actions="[
           {
             label: 'Save',
-            onclick: saveBook
+            onclick: savePokemon
           },
           {
             label: 'Close',
             type: 'default',
-            onclick: closeBookForm
+            onclick: closePokemonForm
           }
         ]"
       />
@@ -62,43 +66,35 @@ export default {
   },
   data() {
     return {
-      isLoading: false,
-      bookForm: {
+      pokemonForm: {
         isLoading: false,
         data: null
       },
-      bookModalActive: false,
+      pokemonModalActive: false,
       tableColumns: [
         {
-          type: 'id',
+          type: 'string',
           field: (r) => r.id,
           label: 'ID',
-          width: '20'
-        },
-        {
-          type: 'string',
-          label: 'Title',
-          field: (r) => r.title,
-          width: '60'
-        },
-        {
-          type: 'string',
-          label: 'Author',
-          field: (r) =>
-            r.author ? `${r.author.name} ${r.author.surname}` : 'Unknown',
-          width: '60'
-        },
-        {
-          type: 'string',
-          label: 'Release Date',
-          field: (r) => r.releaseDate,
-          width: '60'
-        },
-        {
-          type: 'string',
-          label: 'Pages',
-          field: (r) => r.pages,
           width: '40'
+        },
+        {
+          type: 'string',
+          label: 'Name',
+          field: (r) => r.name,
+          width: '60'
+        },
+        {
+          type: 'string',
+          label: 'Number',
+          field: (r) => r.number,
+          width: '60'
+        },
+        {
+          type: 'string',
+          label: 'Classification',
+          field: (r) => r.classification,
+          width: '60'
         },
         {
           type: 'action',
@@ -107,13 +103,13 @@ export default {
           actions: [
             {
               callback: (rowData) => {
-                this.editBook(rowData)
+                this.editPokemon(rowData)
               },
               icon: 'pencil'
             },
             {
               callback: (rowData) => {
-                this.deleteBook(rowData)
+                this.deletePokemon(rowData)
               },
               icon: 'delete'
             }
@@ -124,65 +120,69 @@ export default {
   },
   computed: {
     modalHeader() {
-      return this.bookForm.data !== null ? `Edit book` : 'Create new book'
+      return this.pokemonForm.data !== null
+        ? `Edit pokemon`
+        : 'Create new pokemon'
     }
   },
-  async asyncData({ app }) {
-    const books = await app.$v.book.getBooks()
-    return { tableData: books }
-  },
   methods: {
-    editBook(data = null) {
+    getPokemons() {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const pokemons = await this.$v.pokemon.getPokemons()
+          resolve({
+            data: pokemons,
+            total: pokemons.length
+          })
+        } catch (e) {
+          reject(e)
+        }
+      })
+    },
+    editPokemon(data = null) {
       if (data !== null) {
-        this.bookForm.data = Object.assign({}, data)
+        this.pokemonForm.data = Object.assign({}, data)
       } else {
-        this.bookForm.data = {
-          title: null,
-          releaseDate: null,
-          pages: 0
+        this.pokemonForm.data = {
+          id: null,
+          name: null,
+          number: null,
+          classification: null
         }
       }
-      this.bookModalActive = true
+      this.pokemonModalActive = true
     },
 
     getMe() {
       this.$v.auth.me()
     },
-    async saveBook() {
+    savePokemon() {
       try {
-        this.isLoading = true
-        await this.$v.book.editBook(this.bookForm.data)
+        console.log(this.pokemonForm.data)
         this.$v.notification.success(
-          `Book #${this.bookForm.data.id || ''} saved`
+          `Pokemon #${this.pokemonForm.data.id || ''} saved. Look to console :)`
         )
-        this.tableData = await this.$v.book.getBooks()
-        this.isLoading = false
       } catch (e) {
-        this.$v.notification.error('Could not update book')
+        this.$v.notification.error('Could not update pokemon')
       }
-      this.closeBookForm()
+      this.closePokemonForm()
     },
-    deleteBook({ id }) {
+    deletePokemon({ id }) {
       try {
         this.$v.dialog.delete(
-          `Do you really want to delete book #${id}?`,
-          async () => {
-            this.isLoading = true
-            await this.$v.book.deleteBook(id)
-            this.$v.notification.success(`Book ${id} deleted`)
-            this.tableData = await this.$v.book.getBooks()
-            this.isLoading = false
+          `Do you really want to delete pokemon #${id}?`,
+          () => {
+            this.$v.notification.success(`Pokemon ${id} deleted`)
           }
         )
       } catch (e) {
-        this.$v.notification.error('Could not delete book')
+        this.$v.notification.error('Could not delete pokemon')
       }
-      // TODO delete book mutation
     },
-    closeBookForm() {
-      this.bookModalActive = false
-      this.bookForm.data = null
-      this.bookForm.isLoading = false
+    closePokemonForm() {
+      this.pokemonModalActive = false
+      this.pokemonForm.data = null
+      this.pokemonForm.isLoading = false
     }
   }
 }

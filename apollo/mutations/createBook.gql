@@ -1,3 +1,0 @@
-mutation createBook($title:String, $releaseDate: String, $pages: Int){
-    bookCreate(title: $title, releaseDate: $releaseDate, pages: $pages)
-}

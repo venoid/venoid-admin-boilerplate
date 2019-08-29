@@ -45,7 +45,7 @@ export default {
     '@nuxtjs/apollo'
   ],
   router: {
-    middleware: ['isAuth']
+    middleware: []
   },
 
   apollo: {
@@ -53,7 +53,7 @@ export default {
     includeNodeModules: true, // optional, default: false (this includes graphql-tag for node_modules folder)
     clientConfigs: {
       default: {
-        httpEndpoint: 'http://api.2f-library.localhost',
+        httpEndpoint: 'https://graphql-pokemon.now.sh/',
         httpLinkOptions: {
           credentials: 'same-origin'
         }

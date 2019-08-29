@@ -25,9 +25,9 @@ export default {
           to: { name: 'index' }
         },
         {
-          title: 'Inspire',
+          title: 'Start',
           icon: 'lightbulb',
-          to: { name: 'inspire' }
+          to: { name: 'start' }
         }
       ]
     }
